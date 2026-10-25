@@ -1,4 +1,4 @@
 /* Navegación funcional sin JavaScript. Sólo se carga dentro de noscript. */
 @media(max-width:780px){.site-header .menu-toggle{display:none}.site-header nav{position:static;height:auto;display:flex;flex-direction:row;flex-wrap:wrap;gap:0 18px;opacity:1;visibility:visible;pointer-events:auto;transform:none;max-height:none;padding:0;box-shadow:none;border:0;background:transparent}.site-header nav a{font-family:Manrope,Arial,sans-serif;opacity:1;transform:none;font-size:11px;min-height:32px;border:0;gap:0}.site-header nav a:before{display:none}.header-inner{flex-wrap:wrap;gap:5px;padding-block:10px}.page-home .site-header,.site-header{height:auto;background:var(--paper);color:var(--ink)}.page-home .site-header nav{color:var(--ink)}.hero-inner{padding-top:170px}}
-/* Todas las referencias siguen accesibles sin el selector dinámico. */
-.gallery-select{display:none}.gallery-reference[hidden]{display:inline-flex!important}.gallery-detail{display:flex;flex-direction:column;gap:8px}.gallery-reference:after{display:none}.story-sheet{display:none}.story-drawing{display:none}.story-caption{opacity:1;transform:none}
+/* La representación conceptual conserva su leyenda sin JavaScript. */
+.story-sheet{display:none}.story-drawing{display:none}.story-caption{opacity:1;transform:none}

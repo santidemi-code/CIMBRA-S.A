@@ -92,25 +92,6 @@ if(storyStage){
  };
  reduced.addEventListener('change',()=>{previous=-1;queueScroll();});
 }
-// La galería es manual, sin temporizadores ni desplazamiento horizontal forzado.
-const gallery=document.querySelector('.project-gallery');
-if(gallery){
- const selectors=[...gallery.querySelectorAll('[data-gallery-index]')],frames=[...gallery.querySelectorAll('[data-gallery-frame]')],references=[...gallery.querySelectorAll('.gallery-reference')],stage=gallery.querySelector('.gallery-stage');
- let selected=0;
- const select=index=>{
-  selected=(index+selectors.length)%selectors.length;
-  selectors.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===selected)));
-  frames.forEach((frame,i)=>{frame.classList.toggle('is-active',i===selected);frame.setAttribute('aria-hidden',String(i!==selected));});
-  references.forEach((link,i)=>{link.hidden=i!==selected;});
-  stage.dataset.project=details.projects[selected].id;stage.setAttribute('aria-label','Ver referencia: '+details.projects[selected].title);
-  gallery.querySelector('.gallery-position').textContent=String(selected+1).padStart(2,'0')+' / '+String(selectors.length).padStart(2,'0');
-  gallery.querySelector('.gallery-status').textContent=`Obra ${selected+1} de ${selectors.length}`;
- };
- gallery.querySelector('.gallery-arrows').hidden=false;
- selectors.forEach((button,index)=>{button.addEventListener('click',()=>select(index));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?selectors.length-1:selected+(event.key==='ArrowRight'?1:-1);select(next);selectors[selected].focus();});});
- gallery.querySelector('.gallery-prev').addEventListener('click',()=>select(selected-1));
- gallery.querySelector('.gallery-next').addEventListener('click',()=>select(selected+1));
-}
 // El poster carga primero. Un solo MP4 por dispositivo, siempre desde este servidor.
 const heroVideo=document.querySelector('#hero-video');
 const videoToggle=document.querySelector('.hero .video-toggle');
@@ -156,20 +137,17 @@ function closeDetail(){if(!dialog?.open||closing)return;closing=true;if(reduced.
 function detail(topic,trigger){
  if(!dialog||typeof dialog.showModal!=='function')return;
  const service=details.services.find(item=>item.id===topic);
- const project=details.projects.find(item=>item.id===topic);
- const item=service||project;if(!item)return;
- dialog.querySelector('#detail-kind').textContent=service?'Servicio de Cimbra':'Referencia publicada';
- dialog.querySelector('#detail-title').textContent=item.title;
- dialog.querySelector('#detail-description').textContent=service?item.text:item.description;
+ if(!service)return;
+ dialog.querySelector('#detail-kind').textContent='Servicio de Cimbra';
+ dialog.querySelector('#detail-title').textContent=service.title;
+ dialog.querySelector('#detail-description').textContent=service.text;
  const list=dialog.querySelector('#detail-list');list.replaceChildren();
- for(const text of service?.items||[]){const li=document.createElement('li');li.textContent=text;list.append(li);}
+ for(const text of service.items){const li=document.createElement('li');li.textContent=text;list.append(li);}
  list.hidden=!service;
- const location=dialog.querySelector('#detail-location');
- location.textContent=project?`Referencia institucional · ${project.location}`:'';location.hidden=!project;
  openedFrom=trigger;dialog.showModal();document.body.classList.add('dialog-open');dialog.querySelector('.dialog-close').focus();
 }
 if(dialog&&typeof dialog.showModal==='function'){
- document.querySelectorAll('[data-service],[data-project]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();detail(link.dataset.service||link.dataset.project,link);}));
+ document.querySelectorAll('[data-service]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();detail(link.dataset.service,link);}));
  dialog.querySelector('.dialog-close').addEventListener('click',closeDetail);
  dialog.addEventListener('cancel',event=>{event.preventDefault();closeDetail();});
  dialog.addEventListener('click',event=>{if(event.target===dialog)closeDetail();});
