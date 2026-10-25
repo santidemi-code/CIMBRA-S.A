@@ -1,0 +1,16 @@
+import {mkdir,cp,writeFile} from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {render,render404} from '../src/templates.mjs';
+import {services,projects} from '../src/content.mjs';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const dist=path.join(root,'dist');
+await mkdir(path.join(dist,'privacidad'),{recursive:true});
+await cp(path.join(root,'public'),dist,{recursive:true,filter:source=>!path.basename(source).includes('.sb-')&&!path.basename(source).startsWith('.')});
+await writeFile(path.join(dist,'index.html'),render());
+await writeFile(path.join(dist,'privacidad/index.html'),render(true));
+await writeFile(path.join(dist,'404.html'),render404());
+await writeFile(path.join(dist,'robots.txt'),'User-agent: *\nDisallow: /\n');
+const details={services:services.map(({id,title,text,items,kind})=>({id,title,text,items,kind})),projects:projects.map(({id,title,category,description,location})=>({id,title,category,description,location}))};
+await writeFile(path.join(dist,'assets/details.js'),`export const details=${JSON.stringify(details)};\n`);
+console.log('Construcción correcta: hero e imágenes de servicios locales, reservas de empresa/obras grises, sin servicios externos.');
