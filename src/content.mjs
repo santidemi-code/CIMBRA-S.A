@@ -25,4 +25,4 @@ export const projects=[
 {id:'centro-salud',title:'Centro de Salud Sauce Montrull',category:'Edificio de salud',location:'Sauce Montrull',media:'obra-centro-salud',sourceTitle:'Edificio de Reemplazo Centro de Salud Sauce Montrull',description:'Edificio de reemplazo del Centro de Salud Sauce Montrull, incluido en la cartera institucional de Cimbra. El material público no detalla fecha, superficies ni alcance del contrato.'},
 {id:'viviendas',title:'10 viviendas · Aldea Santa María',category:'Viviendas',location:'Aldea Santa María',media:'obra-viviendas',sourceTitle:'Aldea Santa María 10 Viviendas',description:'Conjunto de diez viviendas identificado en la cartera institucional como «Aldea Santa María 10 Viviendas». La fuente no informa fechas ni superficies.'}
 ];
-export function whatsapp(topic='mi proyecto'){return `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(`Hola, Cimbra. Quisiera consultar por ${topic}. Ubicación: ___. Trabajo o material que necesito: ___.`)}`;}
+export function whatsapp(){return `https://wa.me/${company.whatsapp}?text=${encodeURIComponent('Hola, Cimbra. Quisiera consultar por mi proyecto')}`;}

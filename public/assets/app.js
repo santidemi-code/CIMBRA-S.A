@@ -166,8 +166,6 @@ function detail(topic,trigger){
  list.hidden=!service;
  const location=dialog.querySelector('#detail-location');
  location.textContent=project?`Referencia institucional · ${project.location}`:'';location.hidden=!project;
- const message=`Hola, Cimbra. Quisiera consultar por ${service?item.title.toLowerCase():'un proyecto relacionado con '+item.title}. Ubicación: ___. Trabajo que necesito: ___.`;
- dialog.querySelector('#detail-cta').href='https://wa.me/5493434598817?text='+encodeURIComponent(message);
  openedFrom=trigger;dialog.showModal();document.body.classList.add('dialog-open');dialog.querySelector('.dialog-close').focus();
 }
 if(dialog&&typeof dialog.showModal==='function'){
