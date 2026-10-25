@@ -39,3 +39,16 @@
 .social-link{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1px solid #ffffff38;border-radius:999px;background:#ffffff08;color:var(--paper);font-size:12px;font-weight:600;line-height:1;transition:background .2s,border-color .2s}
 .social-link:hover{background:#ffffff14;border-color:#ffffff8c}
 .social-link svg{display:block;width:16px;height:16px;flex:none}
+
+/* Ingeniería: una pausa editorial entre el recorrido y el catálogo de servicios. */
+.engineering-feature{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:center;gap:clamp(48px,7vw,116px);margin-bottom:clamp(100px,10vw,150px)}
+.engineering-copy{min-width:0;max-width:570px}
+.engineering-kicker{margin-bottom:25px;color:var(--red);font-size:12px;font-weight:700;line-height:1.5}
+.engineering-title{max-width:560px;font-size:clamp(58px,5.5vw,86px)}
+.engineering-lead{max-width:480px;margin-top:31px;color:var(--ink);font-size:clamp(17px,1.5vw,21px);line-height:1.6}
+.engineering-text{max-width:480px;margin-top:17px;font-size:14px;line-height:1.9}
+.engineering-copy>.text-link{margin-top:23px}
+.engineering-media{min-width:0;aspect-ratio:4/3;background:#d2d4d0}
+@media(max-width:1000px){.engineering-feature{gap:45px}.engineering-title{font-size:clamp(49px,5.7vw,70px)}.engineering-lead{font-size:17px}.engineering-text{font-size:13px}}
+@media(max-width:780px){.engineering-feature{grid-template-columns:1fr;gap:40px;margin-bottom:96px}.engineering-copy{max-width:650px}.engineering-title{font-size:clamp(54px,8vw,72px)}.engineering-media{aspect-ratio:16/10}}
+@media(max-width:600px){.engineering-feature{gap:34px;margin-bottom:80px}.engineering-kicker{margin-bottom:18px;font-size:11px}.engineering-title{font-size:clamp(45px,12vw,58px)}.engineering-lead{margin-top:22px;font-size:16px}.engineering-text{margin-top:14px;font-size:13px}.engineering-copy>.text-link{margin-top:17px}.engineering-media{aspect-ratio:3/2}}
