@@ -64,6 +64,16 @@ if('IntersectionObserver' in window){
  sections.forEach(section=>observer.observe(section));
  // Sin entradas de artículos completos: contenido estable y visible en todo momento.
 }
+// Una sola entrada del registro de equipos. Sin scroll adicional ni contenido oculto.
+const fleetSection=document.querySelector('.fleet-section');
+if(fleetSection&&'IntersectionObserver'in window){
+ const fleetObserver=new IntersectionObserver(entries=>{
+  if(!entries.some(entry=>entry.isIntersecting))return;
+  if(!reduced.matches)fleetSection.classList.add('is-entering');
+  fleetObserver.disconnect();
+ },{threshold:0,rootMargin:'0px 0px -15% 0px'});
+ fleetObserver.observe(fleetSection.querySelector('.fleet-register'));
+}
 if(storyStage){
  const svg=storyStage.querySelector('.story-drawing'),sheet=storyStage.querySelector('.story-sheet'),caption=storyStage.querySelector('.story-caption');
  const layers=Object.fromEntries(['plan','site','walls','roof','openings','finish'].map(name=>[name,svg.querySelector('.story-'+name)]));
@@ -204,30 +214,4 @@ if(dialog&&typeof dialog.showModal==='function'){
  dialog.addEventListener('click',event=>{if(event.target===dialog)closeDetail();});
  dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const controls=[...dialog.querySelectorAll('button,a[href]')].filter(element=>!element.hidden&&!element.disabled);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1).focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0].focus();}});
  dialog.addEventListener('close',()=>{closing=false;document.body.classList.remove('dialog-open');openedFrom?.focus({preventScroll:true});});
-}
-
-// El video de materiales sólo se descarga al entrar en pantalla o al reproducirlo.
-const materialsVideo=document.querySelector('#materials-video');
-const materialsToggle=document.querySelector('.materials-video-toggle');
-if(materialsVideo&&materialsToggle){
- const card=document.querySelector('#aridos-materiales'),art=materialsVideo.parentElement;
- const connection=navigator.connection;
- let visible=false,intent='auto',failed=false;
- const allowed=()=>!reduced.matches&&!connection?.saveData&&!['slow-2g','2g'].includes(connection?.effectiveType);
- const sync=()=>{const playing=!materialsVideo.paused&&!materialsVideo.ended;materialsToggle.setAttribute('aria-pressed',String(playing));materialsToggle.setAttribute('aria-label',playing?'Pausar video de áridos':'Reproducir video de áridos');materialsToggle.querySelector('span').textContent=playing?'Pausar':'Reproducir';};
- const reconcile=()=>{
-  if(document.hidden||!visible||intent==='pause'||(intent==='auto'&&!allowed())){materialsVideo.pause();return;}
-  if(!materialsVideo.getAttribute('src')||failed){materialsVideo.src=window.innerWidth<=780?materialsVideo.dataset.mobile:materialsVideo.dataset.desktop;materialsVideo.load();failed=false;}
-  materialsVideo.play().catch(sync);
- };
- materialsToggle.hidden=false;
- materialsToggle.addEventListener('click',()=>{intent=materialsVideo.paused?'play':'pause';reconcile();});
- materialsVideo.addEventListener('playing',()=>{art.classList.add('video-ready');sync();});
- materialsVideo.addEventListener('pause',sync);
- materialsVideo.addEventListener('error',()=>{failed=true;art.classList.remove('video-ready');sync();});
- document.addEventListener('visibilitychange',reconcile);
- reduced.addEventListener('change',()=>{if(reduced.matches){intent='auto';art.classList.remove('video-ready');}reconcile();});
- connection?.addEventListener?.('change',reconcile);
- if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;reconcile();},{threshold:0}).observe(card);
- else{visible=true;reconcile();}
 }

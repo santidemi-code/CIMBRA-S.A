@@ -1,4 +1,4 @@
-export const company={name:'Cimbra Constructora S.A.',phone:'+5493434598817',displayPhone:'343 4598817',whatsapp:'5493434598817',address:'Ruta 12 km 10,5',locality:'Colonia Avellaneda, Entre Ríos',hours:'Lunes a viernes, de 8 a 17 h',since:'2010',officialSite:'https://www.cimbraconstructora.com.ar/'};
+export const company={name:'Cimbra Constructora S.A.',phone:'+5493434598817',displayPhone:'343 4598817',whatsapp:'5493434598817',address:'Ruta 12 km 10,5',locality:'Colonia Avellaneda, Entre Ríos',hours:'Lunes a viernes, de 8 a 17 h',since:'2010',website:'https://cimbra-constructora.vercel.app/'};
 export const navigation=[{id:'inicio',label:'Inicio'},{id:'quienes-somos',label:'Quiénes somos'},{id:'obras-servicios',label:'Obras y servicios'},{id:'contacto',label:'Contacto'}];
 // Enlaces proporcionados por el usuario. La web sólo los abre tras un clic explícito.
 export const socialProfiles=[
