@@ -92,6 +92,57 @@ if(storyStage){
  };
  reduced.addEventListener('change',()=>{previous=-1;queueScroll();});
 }
+// Galería con scroll nativo: sin captura de rueda, esperas ni reposicionamiento al entrar.
+const whySection=document.querySelector('.why-section');
+if(whySection){
+ const carousel=whySection.querySelector('.why-carousel');
+ const panels=[...whySection.querySelectorAll('.why-panel')];
+ const jumps=[...whySection.querySelectorAll('[data-why-jump]')];
+ const previous=whySection.querySelector('[data-why-prev]');
+ const next=whySection.querySelector('[data-why-next]');
+ let index=-1,queued=false;
+ const enabled=()=>!mobile.matches&&!reduced.matches&&window.innerHeight>=700;
+ function show(value){
+  index=Math.max(0,Math.min(panels.length-1,value));
+  const enhanced=whySection.classList.contains('is-enhanced');
+  panels.forEach((panel,i)=>{
+   panel.classList.toggle('is-current',i===index);
+   panel.classList.toggle('is-before',i===index-1);
+   panel.classList.toggle('is-after',i===index+1);
+   if(enhanced)panel.setAttribute('aria-hidden',String(i!==index));else panel.removeAttribute('aria-hidden');
+  });
+  jumps.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+  previous.disabled=index===0;next.disabled=index===panels.length-1;
+ }
+ function update(){
+  queued=false;if(!enabled())return;
+  const travel=whySection.offsetHeight-whySection.querySelector('.why-sticky').offsetHeight;
+  const progress=clamp(((header?.offsetHeight||0)-whySection.getBoundingClientRect().top)/Math.max(1,travel));
+  const value=progress<.27?0:progress<.72?1:2;
+  if(value!==index)show(value);
+ }
+ function queue(){if(!queued){queued=true;requestAnimationFrame(update);}}
+ function select(value){
+  const target=Math.max(0,Math.min(panels.length-1,value));
+  const travel=whySection.offsetHeight-whySection.querySelector('.why-sticky').offsetHeight;
+  const top=whySection.getBoundingClientRect().top+scrollY-(header?.offsetHeight||0)+travel*[0,.5,1][target];
+  window.scrollTo({top,behavior:'smooth'});
+ }
+ function syncMode(){
+  whySection.classList.toggle('is-enhanced',enabled());
+  if(enabled())carousel.setAttribute('aria-roledescription','carrusel');else carousel.removeAttribute('aria-roledescription');
+  show(Math.max(0,index));queue();resizeGeometry();
+ }
+ jumps.forEach((button,i)=>button.addEventListener('click',()=>select(i)));
+ previous.addEventListener('click',()=>select(index-1));next.addEventListener('click',()=>select(index+1));
+ carousel.addEventListener('keydown',event=>{
+  if(!enabled()||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+  event.preventDefault();select(event.key==='Home'?0:event.key==='End'?panels.length-1:index+(event.key==='ArrowRight'?1:-1));
+ });
+ window.addEventListener('scroll',queue,{passive:true});
+ mobile.addEventListener('change',syncMode);reduced.addEventListener('change',syncMode);window.addEventListener('resize',syncMode,{passive:true});
+ syncMode();
+}
 // El poster carga primero. Un solo MP4 por dispositivo, siempre desde este servidor.
 const heroVideo=document.querySelector('#hero-video');
 const videoToggle=document.querySelector('.hero .video-toggle');
