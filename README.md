@@ -1,6 +1,6 @@
 # CIMBRA Constructora S.A. · sitio web
 
-Código y recursos del sitio institucional de CIMBRA Constructora S.A. Los videos y las imágenes de servicios son ilustrativos; la galería de obras conserva espacios grises hasta incorporar material correspondiente a cada obra.
+Código y recursos del sitio institucional de CIMBRA Constructora S.A. Los videos y las imágenes de servicios son ilustrativos, salvo las fotos reales de `public/assets/images/obras/` (Ingeniería, Espacios públicos y Confianza); la galería de obras conserva espacios grises hasta incorporar material correspondiente a cada obra.
 
 ## Generar la web
 

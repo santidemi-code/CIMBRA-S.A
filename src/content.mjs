@@ -11,7 +11,9 @@ export const serviceImages={
  'construccion-e-infraestructura':{file:'construccion-e-infraestructura',width:1200,height:670,alt:'Construcción de un edificio con estructura de hormigón y cerramientos de ladrillo.'},
  'redes-agua-cloacas':{file:'redes-agua-cloacas',width:1200,height:670,alt:'Colocación de tuberías en una zanja con apoyo de una excavadora.'},
  'equipos-y-logistica':{file:'equipos-y-logistica',width:1200,height:670,alt:'Retroexcavadora, minicargadora y camión en un patio de materiales.'},
- 'demoliciones':{file:'demoliciones',width:1200,height:670,alt:'Excavadora con martillo hidráulico durante una demolición.'}
+ 'demoliciones':{file:'demoliciones',width:1200,height:670,alt:'Excavadora con martillo hidráulico durante una demolición.'},
+ 'espacios-publicos':{file:'espacios-publicos',dir:'obras',large:true,width:1200,height:800,alt:'Estructuras metálicas para ejercicio instaladas sobre la arena de una playa, junto al río.'},
+ 'confianza':{file:'confianza-minicargadora',dir:'obras',large:true,width:1200,height:888,alt:'Minicargadora de Cimbra Constructora en el predio, con personal y una retroexcavadora al fondo.'}
 };
 export const services=[
 {id:'movimiento-de-suelos',n:'01',title:'Movimiento de suelos',short:'El comienzo de una buena obra.',text:'Movimientos de suelo, compactaciones y rellenos para preparar el terreno de acuerdo con las necesidades del proyecto.',items:['Movimiento de suelos','Compactación y rellenos','Preparación del terreno'],media:'servicio-suelos',kind:'SUELOS'},
