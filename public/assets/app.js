@@ -18,11 +18,10 @@ const process=document.querySelector('.process-list');
 const steps=process?[...process.querySelectorAll(':scope > li:not(.process-machine)')]:[];
 const processMachine=process?.querySelector('.process-machine');
 const storyStage=document.querySelector('.story-stage');
-const readingBar=header?.appendChild(Object.assign(document.createElement('span'),{className:'reading-progress'}));
 const processBar=process?.appendChild(Object.assign(document.createElement('span'),{className:'process-progress'}));
-readingBar?.setAttribute('aria-hidden','true');processBar?.setAttribute('aria-hidden','true');
+processBar?.setAttribute('aria-hidden','true');
 let geometry={total:1,processTop:0,processHeight:1,processWidth:0,machineWidth:0,storyTop:0,storyHeight:1,height:window.innerHeight};
-let geometryDirty=true,scrolled=null,currentStep=-1,lastReading=-1,lastProcess=-1;
+let geometryDirty=true,scrolled=null,currentStep=-1,lastProcess=-1;
 let scrollQueued=false;
 const clamp=value=>Math.max(0,Math.min(1,value));
 function measureGeometry(){
@@ -33,10 +32,8 @@ function measureGeometry(){
 function updateHeader(){
  if(geometryDirty)measureGeometry();
  const y=window.scrollY;
- const progress=clamp(y/geometry.total);
  const nextScrolled=y>20;
  if(nextScrolled!==scrolled){header?.classList.toggle('is-scrolled',nextScrolled);scrolled=nextScrolled;}
- if(readingBar&&Math.abs(progress-lastReading)>.0003){readingBar.style.transform=`scaleX(${progress.toFixed(4)})`;lastReading=progress;}
  if(process){
   const p=clamp((geometry.height*.78-(geometry.processTop-y))/(geometry.height*.5+geometry.processHeight));
   if(Math.abs(p-lastProcess)>.001){const shown=Number(p.toFixed(3));processBar.style.transform=`scaleX(${shown})`;if(processMachine){const x=Math.max(0,Math.min(geometry.processWidth-geometry.machineWidth,shown*geometry.processWidth-geometry.machineWidth*.95));processMachine.style.transform=`translate3d(${x.toFixed(1)}px,0,0)`;}lastProcess=p;}
@@ -181,15 +178,6 @@ if(heroVideo&&videoToggle){
  connection?.addEventListener?.('change',reconcile);
  if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;reconcile();},{threshold:0}).observe(hero);
  if(poster.complete)reconcile();else{poster.addEventListener('load',reconcile,{once:true});poster.addEventListener('error',reconcile,{once:true});}
-}
-// Sólo dos CTA: desplazamiento máximo de cuatro píxeles con mouse, sin alterar el scroll.
-const finePointer=window.matchMedia('(hover:hover) and (pointer:fine)');
-for(const button of document.querySelectorAll('.hero-actions .button-red,.contact-section .button')){
- let bounds=null,pending=null,frame=0;
- const reset=()=>{bounds=null;pending=null;cancelAnimationFrame(frame);frame=0;button.style.removeProperty('--magnet-x');button.style.removeProperty('--magnet-y');};
- button.addEventListener('pointerenter',event=>{if(finePointer.matches&&!reduced.matches&&event.pointerType==='mouse')bounds=button.getBoundingClientRect();});
- button.addEventListener('pointermove',event=>{if(!bounds||reduced.matches||!finePointer.matches||event.pointerType!=='mouse')return;pending={x:event.clientX,y:event.clientY};if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(!pending||!bounds)return;const x=Math.max(-4,Math.min(4,(pending.x-bounds.left-bounds.width/2)*.035));const y=Math.max(-3,Math.min(3,(pending.y-bounds.top-bounds.height/2)*.08));button.style.setProperty('--magnet-x',x.toFixed(2)+'px');button.style.setProperty('--magnet-y',y.toFixed(2)+'px');});},{passive:true});
- button.addEventListener('pointerleave',reset);button.addEventListener('pointerdown',reset);button.addEventListener('blur',reset);reduced.addEventListener('change',reset);finePointer.addEventListener('change',reset);
 }
 const dialog=document.querySelector('.detail-dialog');
 let openedFrom=null;
