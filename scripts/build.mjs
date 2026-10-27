@@ -13,4 +13,4 @@ await writeFile(path.join(dist,'404.html'),render404());
 await writeFile(path.join(dist,'robots.txt'),'User-agent: *\nDisallow: /\n');
 const details={services:services.map(({id,title,text,items,kind})=>({id,title,text,items,kind}))};
 await writeFile(path.join(dist,'assets/details.js'),`export const details=${JSON.stringify(details)};\n`);
-console.log('Construcción correcta: hero e imágenes de servicios locales, fotos reales en Ingeniería, Espacios públicos y Confianza, sin servicios externos.');
+console.log('Construcción correcta: hero e imágenes de servicios locales, fuentes WOFF locales y fotos reales en Ingeniería y Espacios públicos, sin servicios externos.');
