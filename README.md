@@ -18,4 +18,4 @@ Este repositorio es público: todo archivo confirmado queda accesible a cualquie
 
 ## Firma de beta
 
-Al pie del sitio, en una franja clara debajo del footer, va la firma «Diseñado y desarrollado por beta». Enlaza al Instagram de beta en una pestaña nueva. Es el componente `firma-beta` v1 de beta: el marcado está en `src/firma-beta.mjs` y los estilos en `public/assets/firma-beta.css`, y no se editan acá. La franja está al final de `public/assets/styles.css`.
+En el footer, arriba de la línea que separa la fila del ©, va la firma «Diseñado y desarrollado por beta», en el color claro del footer. Enlaza al Instagram de beta en una pestaña nueva. Es el componente `firma-beta` v1 de beta: el marcado está en `src/firma-beta.mjs` y los estilos en `public/assets/firma-beta.css`, y no se editan acá. Su ubicación (`.firma-fila`) está al final de `public/assets/styles.css`.

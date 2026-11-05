@@ -172,4 +172,4 @@
 @media(max-height:640px){.story-pin .about-visual,.about-copy{position:static}.story-run{display:none}.story-stage{max-height:none}}
 /* Objetivos táctiles cómodos en el pie */
 @media(pointer:coarse){.site-footer nav a,.footer-bottom a{min-height:44px;display:inline-flex;align-items:center}}
-.site-footer:has(.firma-franja){padding-bottom:0}.firma-franja{margin-top:18px;background:var(--paper);color:#0f172a}.firma-franja .wrap{display:flex;align-items:center;min-height:56px;padding-block:14px;padding-right:max(var(--gutter),120px)}@media(max-width:600px){.firma-franja{margin-top:12px}.firma-franja .wrap{padding-right:90px}}
+.firma-fila{display:flex;align-items:center;margin-top:-20px;padding-bottom:28px;color:var(--paper)}@media(max-width:600px){.firma-fila{margin-top:-12px;padding-bottom:22px;padding-right:90px}}
