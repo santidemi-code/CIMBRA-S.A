@@ -15,3 +15,7 @@ La salida estática queda en `dist/`. El archivo `vercel.json` deja configurados
 La web no carga analítica ni recursos de terceros. Los enlaces a WhatsApp, Instagram, Facebook y el sitio institucional se abren únicamente cuando se seleccionan. Las páginas generadas incluyen `noindex` y `robots.txt` bloquea el rastreo mientras este proyecto se use como vista de revisión.
 
 Este repositorio es público: todo archivo confirmado queda accesible a cualquier persona. No contiene respaldos locales, archivos de QA, originales de trabajo ni credenciales.
+
+## Firma de beta
+
+En el footer, arriba de la línea que separa la fila del ©, va la firma «Diseñado y desarrollado por beta», en el color claro del footer. Enlaza al Instagram de beta en una pestaña nueva. Es el componente `firma-beta` v1 de beta: el marcado está en `src/firma-beta.mjs` y los estilos en `public/assets/firma-beta.css`, y no se editan acá. Su ubicación (`.firma-fila`) está al final de `public/assets/styles.css`.

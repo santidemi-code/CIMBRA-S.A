@@ -1,0 +1,116 @@
+/*
+ * Firma de beta v1: "Diseñado y desarrollado por beta", enlazada al Instagram de beta.
+ * Se copia en cada proyecto junto con firma-beta.html. Sin dependencias ni JavaScript; compatible con
+ * CSP estrictas (style-src 'self'). Todo vive bajo .firma-beta para no chocar con los estilos del cliente.
+ *
+ * Variantes (atributos en el <a>):
+ *   data-tema="claro" | "oscuro"      fuerza la tinta; sin atributo hereda el color del footer (currentColor)
+ *   data-tema="mono"                  todo en el color del footer, para fondos de color donde el azul no contrasta
+ *   data-tamano="chico" | "grande"    sin atributo: tamaño normal
+ *   data-alinear="inicio" | "centro" | "fin"   ocupa su propia línea alineada; sin atributo queda en línea
+ * Ajuste fino: --firma-beta-alto (alto del logotipo, 13px), --firma-beta-tinta y --firma-beta-tenue (opacidad de la
+ * leyenda, .72: pasarla a 1 si el texto del footer tiene menos de 8:1 de contraste con su fondo).
+ */
+a.firma-beta {
+  --firma-beta-alto: 13px;
+  --firma-beta-azul: #2563EB;
+  --firma-beta-tinta: currentColor;
+  --firma-beta-tenue: .72;
+  --firma-beta-curva: cubic-bezier(.23, 1, .32, 1);
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: calc(var(--firma-beta-alto) * .7);
+  row-gap: 4px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  box-shadow: none;
+  color: var(--firma-beta-tinta);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: max(12px, calc(var(--firma-beta-alto) * .92));
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  text-shadow: none;
+  white-space: normal;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+a.firma-beta *, a.firma-beta *::before, a.firma-beta *::after { box-sizing: border-box; }
+/* Los estados del enlace no toman los estilos del cliente (ej.: footer a:hover { color; background }). */
+a.firma-beta:link, a.firma-beta:visited, a.firma-beta:hover, a.firma-beta:focus, a.firma-beta:active {
+  color: var(--firma-beta-tinta); background: none; text-decoration: none; text-transform: none; letter-spacing: .01em;
+}
+/* Área táctil de al menos 44 px de alto sin cambiar el tamaño del footer. */
+a.firma-beta::before { content: ""; position: absolute; inset: min(-6px, calc(50% - 23px)) -8px; }
+
+.firma-beta__leyenda {
+  white-space: nowrap;
+  opacity: var(--firma-beta-tenue);
+  transition: opacity 200ms ease;
+}
+.firma-beta__marca {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: calc(var(--firma-beta-alto) * .42);
+  white-space: nowrap;
+}
+.firma-beta svg { display: block; flex: none; width: auto; max-width: none; height: var(--firma-beta-alto); overflow: visible; fill: currentColor; }
+.firma-beta__iso { height: calc(var(--firma-beta-alto) * 1.02); }
+.firma-beta__logo { height: var(--firma-beta-alto); }
+.firma-beta__pieza { transform-box: fill-box; transition: transform 200ms var(--firma-beta-curva); }
+.firma-beta__pieza--azul { fill: var(--firma-beta-azul); }
+
+/* Interacción: la leyenda gana contraste y las piezas del isotipo se separan, como las capas del sitio de beta. */
+@media (hover: hover) and (pointer: fine) {
+  a.firma-beta:hover .firma-beta__leyenda { opacity: 1; }
+  a.firma-beta:hover .firma-beta__pieza--tinta { transform: translate(-1.5px, -1px); }
+  a.firma-beta:hover .firma-beta__pieza--azul { transform: translate(1.5px, 1px); }
+}
+a.firma-beta:focus { outline: none; }
+a.firma-beta:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+a.firma-beta:focus-visible .firma-beta__leyenda { opacity: 1; }
+a.firma-beta:active .firma-beta__marca { transform: scale(.98); }
+.firma-beta__marca { transition: transform 120ms var(--firma-beta-curva); }
+
+.firma-beta__sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Temas: sin atributo hereda el color del footer; estos fuerzan la tinta de beta. */
+a.firma-beta[data-tema="claro"] { --firma-beta-tinta: #0F172A; }
+a.firma-beta[data-tema="oscuro"] { --firma-beta-tinta: #F8FAFC; }
+/* Fondos de color del cliente: todo en la tinta del footer; la pieza azul se distingue por tono. */
+a.firma-beta[data-tema="mono"] { --firma-beta-azul: currentColor; --firma-beta-tenue: 1; }
+a.firma-beta[data-tema="mono"] .firma-beta__pieza--tinta { opacity: .5; }
+
+/* Tamaños */
+a.firma-beta[data-tamano="chico"] { --firma-beta-alto: 11px; }
+a.firma-beta[data-tamano="grande"] { --firma-beta-alto: 16px; }
+
+/* Alineación en su propia línea */
+a.firma-beta[data-alinear] { display: flex; width: fit-content; }
+a.firma-beta[data-alinear="inicio"] { margin-inline: 0 auto; }
+a.firma-beta[data-alinear="centro"] { margin-inline: auto; justify-content: center; }
+a.firma-beta[data-alinear="fin"] { margin-inline: auto 0; justify-content: flex-end; }
+
+@media (prefers-reduced-motion: reduce) {
+  .firma-beta__leyenda, .firma-beta__pieza, .firma-beta__marca { transition: none; }
+  a.firma-beta:hover .firma-beta__pieza--tinta, a.firma-beta:hover .firma-beta__pieza--azul, a.firma-beta:active .firma-beta__marca { transform: none; }
+}
+@media (forced-colors: active) {
+  .firma-beta__pieza--azul { fill: currentColor; }
+  .firma-beta__leyenda { opacity: 1; }
+}
