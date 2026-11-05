@@ -1,5 +1,5 @@
 import {details} from './details.js';
-import {createObra,STAGES} from './story-obra.js';
+import {createObra} from './story-obra.js';
 document.addEventListener('click',event=>{if(event.target.closest('a[aria-disabled="true"]')){event.preventDefault();event.stopImmediatePropagation();}},true);
 const menuButton=document.querySelector('.menu-toggle');
 const nav=document.querySelector('#navegacion');
@@ -77,12 +77,8 @@ if(fleetSection&&'IntersectionObserver'in window){
 }
 if(storyStage){
  // Del plano a la realidad: compactación del suelo y platea de hormigón (ver story-obra.js).
- const sheet=storyStage.querySelector('.story-sheet'),caption=storyStage.querySelector('.story-caption'),level=storyStage.querySelector('.story-readout strong');
- let lastStage=-1,lastLevel='';
- const obra=createObra(storyStage.querySelector('.story-drawing'),{onFrame:({stage,level:value})=>{
-  if(stage!==lastStage){lastStage=stage;caption.textContent=STAGES[stage];}
-  if(value!==lastLevel){lastLevel=value;level.textContent=value;}
- }});
+ const sheet=storyStage.querySelector('.story-sheet');
+ const obra=createObra(storyStage.querySelector('.story-drawing'));
  let previous=-1;
  updateStory=y=>{
   // La figura queda fija (sticky) durante el recorrido de .story-run: la obra empieza
