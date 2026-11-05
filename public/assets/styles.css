@@ -168,3 +168,7 @@
 .story-stage{max-height:calc(100vh - var(--header-h) - 150px)}
 @media(max-width:780px){.about-copy{position:static}.story-run{height:120vh;height:120svh}.story-stage{max-height:calc(100svh - var(--header-h) - 130px)}}
 @media(prefers-reduced-motion:reduce){.story-run{display:none}.story-pin .about-visual,.about-copy{position:static}}
+/* Pantallas bajas (celulares en horizontal): sin fijar la sección; la obra avanza al pasar */
+@media(max-height:640px){.story-pin .about-visual,.about-copy{position:static}.story-run{display:none}.story-stage{max-height:none}}
+/* Objetivos táctiles cómodos en el pie */
+@media(pointer:coarse){.site-footer nav a,.footer-bottom a{min-height:44px;display:inline-flex;align-items:center}}

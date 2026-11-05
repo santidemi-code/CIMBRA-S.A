@@ -87,8 +87,10 @@ if(storyStage){
  updateStory=y=>{
   // La figura queda fija (sticky) durante el recorrido de .story-run: la obra empieza
   // un poco antes de fijarse, ya con la ilustración entera a la vista, y termina antes de soltarse.
-  const pinStart=geometry.storyTop-geometry.storySticky,lead=geometry.height*.12;
-  const start=pinStart-lead,end=pinStart+Math.max(1,geometry.storyRun*.92);
+  // En pantallas bajas no hay tramo fijo (.story-run oculto): la obra avanza mientras la sección pasa.
+  const pinned=geometry.storyRun>0,pinStart=geometry.storyTop-geometry.storySticky;
+  const start=pinned?pinStart-geometry.height*.12:geometry.storyTop-geometry.height*.6;
+  const end=pinned?pinStart+geometry.storyRun*.92:geometry.storyTop+geometry.storyHeight*.35;
   const p=reduced.matches?1:clamp((y-start)/(end-start));
   if(Math.abs(p-previous)<.001)return;previous=p;
   sheet.style.transform=`scaleX(${(1-clamp(p/.05)).toFixed(3)})`;
