@@ -153,3 +153,9 @@
 
 /* Retrato y plano centrados en la ventana de Precisión. */
 #why-panel-2 .why-photo img{object-position:center 64%}
+
+/* Del plano a la realidad: lectura del desnivel sobre la ilustración */
+.story-readout{position:absolute;top:16px;left:20px;margin:0;display:flex;flex-direction:column;gap:2px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums;pointer-events:none}
+.story-readout strong{font-family:Barlow Condensed,Impact,sans-serif;font-weight:600;text-transform:none;font-size:22px;letter-spacing:.02em;color:var(--ink)}
+.story-caption{max-width:300px}
+@media(max-width:600px){.story-readout{top:12px;left:16px}.story-readout strong{font-size:18px}}

@@ -1,4 +1,5 @@
 import {details} from './details.js';
+import {createObra,STAGES} from './story-obra.js';
 document.addEventListener('click',event=>{if(event.target.closest('a[aria-disabled="true"]')){event.preventDefault();event.stopImmediatePropagation();}},true);
 const menuButton=document.querySelector('.menu-toggle');
 const nav=document.querySelector('#navegacion');
@@ -75,30 +76,20 @@ if(fleetSection&&'IntersectionObserver'in window){
  fleetObserver.observe(fleetSection.querySelector('.fleet-register'));
 }
 if(storyStage){
- const svg=storyStage.querySelector('.story-drawing'),sheet=storyStage.querySelector('.story-sheet'),caption=storyStage.querySelector('.story-caption');
- const layers=Object.fromEntries(['plan','site','walls','roof','openings','finish'].map(name=>[name,svg.querySelector('.story-'+name)]));
- const traces=Object.fromEntries(['foundation-trace','columns','portals','facade'].map(name=>[name,[...svg.querySelectorAll('.story-'+name+' path[pathLength]')]]));
- const phase=(p,start,end)=>clamp((p-start)/(end-start));
- const draw=(paths,value)=>{const offset=(1-value).toFixed(3);for(const path of paths)path.style.strokeDashoffset=offset;};
+ // Del plano a la realidad: compactación del suelo y platea de hormigón (ver story-obra.js).
+ const sheet=storyStage.querySelector('.story-sheet'),caption=storyStage.querySelector('.story-caption'),level=storyStage.querySelector('.story-readout strong');
+ let lastStage=-1,lastLevel='';
+ const obra=createObra(storyStage.querySelector('.story-drawing'),{onFrame:({stage,level:value})=>{
+  if(stage!==lastStage){lastStage=stage;caption.textContent=STAGES[stage];}
+  if(value!==lastLevel){lastLevel=value;level.textContent=value;}
+ }});
  let previous=-1;
  updateStory=y=>{
-  const startTop=geometry.height*.85,finishTop=Math.max(120,geometry.height*(window.innerWidth>780?.25:.14));
+  const startTop=geometry.height*.9,finishTop=geometry.height*(window.innerWidth>780?.04:.1);
   const p=reduced.matches?1:clamp((startTop-(geometry.storyTop-y))/(startTop-finishTop));
-  if(Math.abs(p-previous)<.002)return;previous=p;
-  draw(traces['foundation-trace'],phase(p,0,.16));
-  layers.site.style.opacity=phase(p,.07,.22).toFixed(3);
-  draw(traces.columns,phase(p,.18,.42));
-  draw(traces.portals,phase(p,.33,.57));
-  layers.roof.style.opacity=phase(p,.51,.70).toFixed(3);
-  layers.walls.style.opacity=phase(p,.66,.84).toFixed(3);
-  draw(traces.facade,phase(p,.70,.89));
-  layers.openings.style.opacity=phase(p,.81,.96).toFixed(3);
-  layers.finish.style.opacity=phase(p,.87,.99).toFixed(3);
-  layers.plan.style.opacity=(1-.84*phase(p,.67,.99)).toFixed(3);
-  sheet.style.transform=`scaleX(${(1-phase(p,.02,.22)).toFixed(3)})`;
-  const text=phase(p,.82,.98);
-  caption.style.opacity=text.toFixed(3);
-  caption.style.transform=`translateY(${((1-text)*7).toFixed(1)}px)`;
+  if(Math.abs(p-previous)<.001)return;previous=p;
+  sheet.style.transform=`scaleX(${(1-clamp(p/.05)).toFixed(3)})`;
+  obra.setProgress(p);
  };
  reduced.addEventListener('change',()=>{previous=-1;queueScroll();});
 }
