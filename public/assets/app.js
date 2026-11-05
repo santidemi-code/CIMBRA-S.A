@@ -27,8 +27,8 @@ let geometryDirty=true,scrolled=null,currentStep=-1,lastReading=-1,lastProcess=-
 let scrollQueued=false;
 const clamp=value=>Math.max(0,Math.min(1,value));
 function measureGeometry(){
- const y=window.scrollY,rect=process?.getBoundingClientRect(),storyRect=storyStage?.getBoundingClientRect();
- geometry={total:Math.max(1,document.documentElement.scrollHeight-window.innerHeight),height:window.innerHeight,processTop:rect?rect.top+y:0,processHeight:rect?.height||1,processWidth:rect?.width||0,machineWidth:processMachine?.offsetWidth||0,storyTop:storyRect?storyRect.top+y:0,storyHeight:storyRect?.height||1};
+ const y=window.scrollY,rect=process?.getBoundingClientRect(),storyPin=storyStage?.closest('.story-pin'),pinRect=storyPin?.getBoundingClientRect(),storyFigure=storyStage?.closest('.about-visual'),storyRun=storyPin?.querySelector('.story-run');
+ geometry={total:Math.max(1,document.documentElement.scrollHeight-window.innerHeight),height:window.innerHeight,processTop:rect?rect.top+y:0,processHeight:rect?.height||1,processWidth:rect?.width||0,machineWidth:processMachine?.offsetWidth||0,storyTop:pinRect?pinRect.top+y:0,storyHeight:storyStage?.offsetHeight||1,storySticky:storyFigure?parseFloat(getComputedStyle(storyFigure).top)||0:0,storyRun:storyRun?.offsetHeight||0};
  geometryDirty=false;
 }
 function updateHeader(){
@@ -85,8 +85,11 @@ if(storyStage){
  }});
  let previous=-1;
  updateStory=y=>{
-  const startTop=geometry.height*.9,finishTop=geometry.height*(window.innerWidth>780?.04:.1);
-  const p=reduced.matches?1:clamp((startTop-(geometry.storyTop-y))/(startTop-finishTop));
+  // La figura queda fija (sticky) durante el recorrido de .story-run: la obra empieza
+  // un poco antes de fijarse, ya con la ilustración entera a la vista, y termina antes de soltarse.
+  const pinStart=geometry.storyTop-geometry.storySticky,lead=geometry.height*.12;
+  const start=pinStart-lead,end=pinStart+Math.max(1,geometry.storyRun*.92);
+  const p=reduced.matches?1:clamp((y-start)/(end-start));
   if(Math.abs(p-previous)<.001)return;previous=p;
   sheet.style.transform=`scaleX(${(1-clamp(p/.05)).toFixed(3)})`;
   obra.setProgress(p);

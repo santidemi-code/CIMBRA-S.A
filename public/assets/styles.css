@@ -159,3 +159,12 @@
 .story-readout strong{font-family:Barlow Condensed,Impact,sans-serif;font-weight:600;text-transform:none;font-size:22px;letter-spacing:.02em;color:var(--ink)}
 .story-caption{max-width:300px}
 @media(max-width:600px){.story-readout{top:12px;left:16px}.story-readout strong{font-size:18px}}
+
+/* Del plano a la realidad: la figura queda fija mientras la obra avanza con el scroll */
+.story-pin{min-width:0;align-self:start}
+.story-pin .about-visual{position:sticky;top:calc(var(--header-h) + 22px)}
+.story-run{height:110vh;height:110svh}
+.about-copy{position:sticky;top:calc(var(--header-h) + 22px);align-self:start}
+.story-stage{max-height:calc(100vh - var(--header-h) - 150px)}
+@media(max-width:780px){.about-copy{position:static}.story-run{height:120vh;height:120svh}.story-stage{max-height:calc(100svh - var(--header-h) - 130px)}}
+@media(prefers-reduced-motion:reduce){.story-run{display:none}.story-pin .about-visual,.about-copy{position:static}}
